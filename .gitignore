@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+venv/
+
+# Environment
+.env
+
+# Docker
+postgres_data/
+ollama_data/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Uploads / runtime data
+uploaded_datasets/
