@@ -12,6 +12,7 @@ def calculate_confidence(plan, result_data: Any) -> float:
     """
 
     score = 1.0
+    
 
     # --------------------------------------------------
     # PLAN COMPLETENESS
