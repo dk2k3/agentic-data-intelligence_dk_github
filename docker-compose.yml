@@ -1,0 +1,112 @@
+version: "3.9"
+
+services:
+
+  postgres:
+    image: postgres:15
+
+    container_name: agentic-postgres
+
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_USER: agentic
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: agenticdb
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U agentic -d agenticdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+
+  ollama:
+
+    image: ollama/ollama:latest
+
+    container_name: agentic-ollama
+
+    restart: unless-stopped
+
+    ports:
+      - "11434:11434"
+
+    volumes:
+      - ollama_data:/root/.ollama
+
+
+  api:
+
+    build:
+
+      context: .
+
+      dockerfile: docker/Dockerfile.api
+
+    container_name: agentic-api
+
+    restart: unless-stopped
+
+    ports:
+
+      - "8000:8000"
+
+    depends_on:
+
+      postgres:
+
+        condition: service_healthy
+
+      ollama:
+
+        condition: service_started
+
+    environment:
+
+      DATABASE_URL: postgresql://agentic:password@postgres:5432/agenticdb
+
+      OLLAMA_HOST: http://ollama:11434
+
+    volumes:
+
+      - ./uploaded_datasets:/app/uploaded_datasets
+
+
+  dashboard:
+
+    build:
+
+      context: .
+
+      dockerfile: docker/Dockerfile.streamlit
+
+    container_name: agentic-dashboard
+
+    restart: unless-stopped
+
+    ports:
+
+      - "8501:8501"
+
+    depends_on:
+
+      - api
+
+    environment:
+
+      API_BASE_URL: http://api:8000
+
+
+
+volumes:
+
+  postgres_data:
+
+  ollama_data:

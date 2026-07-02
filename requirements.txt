@@ -1,0 +1,42 @@
+# -------------------------
+# Core Backend
+# -------------------------
+fastapi
+uvicorn
+
+# -------------------------
+# Data & Analytics
+# -------------------------
+pandas
+numpy
+sqlalchemy
+psycopg2-binary
+
+# -------------------------
+# File Upload & Parsing
+# -------------------------
+python-multipart
+
+# -------------------------
+# LLM & Agent Framework
+# -------------------------
+langchain
+langchain-community
+
+# -------------------------
+# Visualization
+# -------------------------
+plotly
+
+# -------------------------
+# Dashboard
+# -------------------------
+streamlit
+requests
+
+# -------------------------
+# Utilities
+# -------------------------
+pydantic
+python-dotenv
+scikit-learn
